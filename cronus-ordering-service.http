@@ -1,0 +1,48 @@
+@host = http://localhost:5081
+
+### Liveness (process only, no dependency checks)
+GET {{host}}/health/live
+Accept: application/json
+
+### Readiness (includes PostgreSQL reachability)
+GET {{host}}/health/ready
+Accept: application/json
+
+### List restaurants
+GET {{host}}/restaurants
+Accept: application/json
+
+### Get a restaurant's menu
+GET {{host}}/restaurants/a1000000-0000-0000-0000-000000000001/menu
+Accept: application/json
+
+### Get the current cart
+GET {{host}}/cart
+Accept: application/json
+
+### Add an item to the cart
+POST {{host}}/cart/items
+Content-Type: application/json
+
+{
+  "menuItemId": "b1000000-0000-0000-0000-000000000001",
+  "quantity": 2
+}
+
+### Remove a cart item
+DELETE {{host}}/cart/items/00000000-0000-0000-0000-000000000000
+
+### Place an order (also creates the delivery)
+POST {{host}}/orders
+Content-Type: application/json
+
+{
+  "customerName": "Ada Lovelace",
+  "addressLine": "1 Analytical Way",
+  "city": "London",
+  "postalCode": "E1 6AN"
+}
+
+### Get an order
+GET {{host}}/orders/00000000-0000-0000-0000-000000000000
+Accept: application/json
